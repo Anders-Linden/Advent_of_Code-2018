@@ -118,7 +118,7 @@ impl Hash for Guard {
     }
 }
 
-fn part1() -> u32 {
+fn guard_data() -> HashMap<u32, Guard> {
     let mut event_log : BinaryHeap<Event> = BinaryHeap::new();
     let mut guards_sum: HashMap<u32, Guard> = HashMap::new();
 
@@ -186,17 +186,47 @@ fn part1() -> u32 {
             }
     }
 
-    let sleepy_guard = guards_sum.iter().max_by_key(|&(_k, v)| v).unwrap().1;
+    return guards_sum;
+    }
+
+fn part1() -> (String ,u32) {
+    let guard_data = guard_data();
+    let sleepy_guard = guard_data.iter().max_by_key(|&(_k, v)| v).unwrap().1;
     let guard_id = sleepy_guard.id;
     let minute_sleep = sleepy_guard.minute_possible_sleep();
     let total_sleep = sleepy_guard.sleep;
-    println!("Guard id {},  Most likely sleeping at 00:{}, was sleeping {} minutes totaly", guard_id, minute_sleep, total_sleep);
-    return sleepy_guard.id*minute_sleep;
+    let description = format!("Guard id {}, most likely sleeping at 00:{}, was sleeping {} minutes totaly", guard_id, minute_sleep, total_sleep);
+    return (description, sleepy_guard.id*minute_sleep);
 }
 
+fn part2() -> (String, u32) {
+    let guard_data = guard_data();
+    let mut most_minute_guard: [&u32; 3] = [&0u32,&0u32,&0u32];
+    for (guard_id,guard) in guard_data.iter() {
+
+        match guard.sleep_freq.iter().max_by_key(|&(_k, v)| v) {
+            Some(result) => {
+                //println!("{} {:?}", guard_id, result)
+                if result.1 > most_minute_guard[2] {
+                    most_minute_guard = [guard_id, result.0 ,result.1];
+                }
+                },
+            None => (),
+        }
+       
+    }
+    let description = format!("Guard id {}, was sleeping at 00:{}, {} times", most_minute_guard[0], most_minute_guard[1], most_minute_guard[2]);
+    return (description, most_minute_guard[0]*most_minute_guard[1]);
+}
 
 fn main() {
     println!("Results for Day 4");
     println!("-------------------");
-    println!("Part 1: Answer: {}", part1());
+    let (desc_text_1, answer_1) = part1();
+    let (desc_text_2, answer_2) = part2();
+    println!("Part1: {}",desc_text_1);
+    println!("Part2: {}",desc_text_2);
+    println!("Part 1: Answer: {}", answer_1);
+    println!("Part 2: Answer: {}", answer_2);
+   
 }
