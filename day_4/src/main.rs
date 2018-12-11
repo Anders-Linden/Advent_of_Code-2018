@@ -25,7 +25,7 @@ pub trait SantaEpoch {
 
 impl SantaEpoch for DateTime<Utc> {
     fn santa_epoch(self) -> i64 {
-        // Returns number of seconds since Santa's Birt
+        // Returns number of seconds since Santa's Birth
         let santa_birth = Utc.ymd(270, 3, 15).and_hms(0, 0, 0);
         self.signed_duration_since(santa_birth).num_seconds()
     }
@@ -118,7 +118,7 @@ impl Hash for Guard {
     }
 }
 
-fn guard_data() -> HashMap<u32, Guard> {
+fn get_guard_data() -> HashMap<u32, Guard> {
     let mut event_log : BinaryHeap<Event> = BinaryHeap::new();
     let mut guards_sum: HashMap<u32, Guard> = HashMap::new();
 
@@ -189,8 +189,7 @@ fn guard_data() -> HashMap<u32, Guard> {
     guards_sum
 }
 
-fn part1() -> (String ,u32) {
-    let guard_data = guard_data();
+fn part1(guard_data: &HashMap<u32, Guard>) -> (String ,u32) {
     let sleepy_guard = guard_data.iter().max_by_key(|&(_k, v)| v).unwrap().1;
     let guard_id = sleepy_guard.id;
     let minute_sleep = sleepy_guard.minute_possible_sleep();
@@ -200,8 +199,7 @@ fn part1() -> (String ,u32) {
     (description, sleepy_guard.id*minute_sleep)
 }
 
-fn part2() -> (String, u32) {
-    let guard_data = guard_data();
+fn part2(guard_data: &HashMap<u32, Guard>) -> (String, u32) {
     let mut most_minute_guard: [&u32; 3] = [&0u32,&0u32,&0u32];
     for (guard_id,guard) in guard_data.iter() {
 
@@ -217,10 +215,11 @@ fn part2() -> (String, u32) {
 }
 
 fn main() {
+    let guard_data = get_guard_data();
     println!("Results for Day 4");
     println!("-------------------");
-    let (desc_text_1, answer_1) = part1();
-    let (desc_text_2, answer_2) = part2();
+    let (desc_text_1, answer_1) = part1(&guard_data);
+    let (desc_text_2, answer_2) = part2(&guard_data);
     println!("Part1: {}",desc_text_1);
     println!("Part2: {}",desc_text_2);
     println!("Part 1: Answer: {}", answer_1);
