@@ -1,0 +1,9 @@
+[package]
+name = "day_4"
+version = "0.1.0"
+authors = ["Anders Lindén <anders@andvision.se>"]
+
+[profile.release]
+opt-level = 3
+
+[dependencies]
