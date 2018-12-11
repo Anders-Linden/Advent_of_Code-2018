@@ -8,7 +8,7 @@ fn open_input() -> std::io::BufReader<std::fs::File> {
             Err(why) => panic!("couldn't open, {}", why),
             Ok(file) => file,
         };
-    return BufReader::new(file);
+    BufReader::new(file)
 }
 
 //
@@ -21,10 +21,10 @@ fn part1() -> i32 {
     let mut result = init_freq;
     
     for line in open_input().lines() {
-        let freq_change = line.unwrap().parse().unwrap();
-        result = &result+&freq_change;
+        let freq_change: i32 = line.unwrap().parse().unwrap();
+        result += freq_change;
     }
-    return result;
+    result
 }
 
 // Find first recuring freqency
@@ -35,8 +35,8 @@ fn part2() -> i32 {
 
     loop {
         for line in open_input().lines() {
-            let freq_change = line.unwrap().parse().unwrap();   
-            result = &result+&freq_change;
+            let freq_change: i32 = line.unwrap().parse().unwrap();   
+            result += freq_change;
             
             if resulting_freq.iter().any(|&x| x == result) {
                 return result;

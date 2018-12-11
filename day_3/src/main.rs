@@ -12,7 +12,7 @@ fn open_input() -> std::io::BufReader<std::fs::File> {
             Err(why) => panic!("couldn't open, {}", why),
             Ok(file) => file,
         };
-    return BufReader::new(file);
+    BufReader::new(file)
 }
 
 #[derive(Debug, Clone, Copy, Default)]
@@ -70,7 +70,7 @@ fn calculate_coordinates(claim: Claim) -> Vec<Point> {
                 });
         }
     }
-    return coordinates;
+    coordinates
 }
 
 
@@ -84,15 +84,15 @@ fn part1and2() -> (u32, Claim) {
         let claim_string = re.captures(&str_line).unwrap();
 
         let claim = Claim {
-            id: claim_string["id"].parse::<u32>().unwrap().clone(),
-            padding_y: claim_string["padding_y"].parse::<u32>().unwrap().clone(),
-            padding_x: claim_string["padding_x"].parse::<u32>().unwrap().clone(),
-            width: claim_string["width"].parse::<u32>().unwrap().clone(),
-            height: claim_string["height"].parse::<u32>().unwrap().clone(),
+            id: claim_string["id"].parse::<u32>().unwrap(),
+            padding_y: claim_string["padding_y"].parse::<u32>().unwrap(),
+            padding_x: claim_string["padding_x"].parse::<u32>().unwrap(),
+            width: claim_string["width"].parse::<u32>().unwrap(),
+            height: claim_string["height"].parse::<u32>().unwrap(),
         };
         claims.insert(claim);
         for point in calculate_coordinates(claim) {
-            claimed_coordinates.entry(point).or_insert_with(Vec::new).push(claim.clone());
+            claimed_coordinates.entry(point).or_insert_with(Vec::new).push(claim);
         }
     }
 
@@ -100,7 +100,7 @@ fn part1and2() -> (u32, Claim) {
     let mut part_two_claim = Claim::default();
     for (_point,claim_list) in claimed_coordinates {
         if claim_list.len() > 1 {
-            part_one_count= part_one_count+1;
+            part_one_count += 1;
             for claim in claim_list {
                 claims.remove(&claim);
             }
@@ -111,7 +111,7 @@ fn part1and2() -> (u32, Claim) {
     for claim in claims {
         part_two_claim = claim;
     }
-    return (part_one_count, part_two_claim) ;
+    (part_one_count, part_two_claim)
 
 }
 

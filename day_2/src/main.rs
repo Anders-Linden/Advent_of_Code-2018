@@ -10,7 +10,7 @@ fn open_input() -> std::io::BufReader<std::fs::File> {
         Err(why) => panic!("couldn't open, {}", why),
         Ok(file) => file,
     };
-    return BufReader::new(file);
+    BufReader::new(file)
 }
 
 //
@@ -39,9 +39,9 @@ fn part1() -> u32 {
         }
     }
     for (_key, value) in rudimentary_factors.into_iter() {
-        result = result * value;
+        result *= value;
     }
-    return result;
+    result
 }
 
 // Find common letters in Box IDs letters
@@ -55,7 +55,7 @@ fn part2() -> (usize, String) {
             let mut letter_match = String::new();
             let mut compare_char = compare_id.chars();
             for letter in element.chars() {
-                if &compare_char.next().unwrap() == &letter {
+                if compare_char.next().unwrap() == letter {
                     letter_match.push(letter);
                 }
             }
@@ -64,7 +64,7 @@ fn part2() -> (usize, String) {
     }
     let (num_common, letters_in_common)  = box_id_match.iter().next_back().unwrap();
 
-    return (*num_common, letters_in_common.to_string());
+    (*num_common, letters_in_common.to_string())
 }
 
 fn main() {

@@ -16,7 +16,7 @@ fn open_input() -> std::io::BufReader<std::fs::File> {
             Err(why) => panic!("couldn't open, {}", why),
             Ok(file) => file,
         };
-    return BufReader::new(file);
+    BufReader::new(file)
 }
 
 pub trait SantaEpoch {
@@ -27,7 +27,7 @@ impl SantaEpoch for DateTime<Utc> {
     fn santa_epoch(self) -> i64 {
         // Returns number of seconds since Santa's Birt
         let santa_birth = Utc.ymd(270, 3, 15).and_hms(0, 0, 0);
-        return self.signed_duration_since(santa_birth).num_seconds();
+        self.signed_duration_since(santa_birth).num_seconds()
     }
 }
 
@@ -80,9 +80,9 @@ impl Guard {
         //Return the most frequent minute guard is sleeping
         match self.sleep_freq.iter().max_by_key(|&(_k, v)| v) {
         Some(result) => {
-            return result.0
+            result.0
         },
-        None => return &0u32,
+        None => &0u32,
         }
     }
 }
@@ -128,12 +128,12 @@ fn guard_data() -> HashMap<u32, Guard> {
         let str_line = line.unwrap().clone();
         let guards_string = re.captures(&str_line).unwrap();
         
-        let year = guards_string["year"].parse::<i32>().unwrap().clone();
-        let month = guards_string["month"].parse::<u32>().unwrap().clone();
-        let day = guards_string["day"].parse::<u32>().unwrap().clone();
-        let hour = guards_string["hour"].parse::<u32>().unwrap().clone();
-        let minute = guards_string["minute"].parse::<u32>().unwrap().clone();
-        let event = guards_string["event"].parse::<String>().unwrap().clone();
+        let year = guards_string["year"].parse::<i32>().unwrap();
+        let month = guards_string["month"].parse::<u32>().unwrap();
+        let day = guards_string["day"].parse::<u32>().unwrap();
+        let hour = guards_string["hour"].parse::<u32>().unwrap();
+        let minute = guards_string["minute"].parse::<u32>().unwrap();
+        let event = guards_string["event"].parse::<String>().unwrap();
         
         let date = Utc.ymd(year, month, day).and_hms(hour, minute, 0);
         let mut guard_id = 0;
@@ -146,7 +146,7 @@ fn guard_data() -> HashMap<u32, Guard> {
             event_type = Task::WakeUp; 
             guard_id = 0; // Undefined, list is not sorted yet
         } else if event == "Guard" {
-            guard_id = guards_string["id"].parse::<u32>().unwrap().clone();
+            guard_id = guards_string["id"].parse::<u32>().unwrap();
             event_type = Task::BeginShift;
         }
 
@@ -186,8 +186,8 @@ fn guard_data() -> HashMap<u32, Guard> {
             }
     }
 
-    return guards_sum;
-    }
+    guards_sum
+}
 
 fn part1() -> (String ,u32) {
     let guard_data = guard_data();
@@ -196,7 +196,8 @@ fn part1() -> (String ,u32) {
     let minute_sleep = sleepy_guard.minute_possible_sleep();
     let total_sleep = sleepy_guard.sleep;
     let description = format!("Guard id {}, most likely sleeping at 00:{}, was sleeping {} minutes totaly", guard_id, minute_sleep, total_sleep);
-    return (description, sleepy_guard.id*minute_sleep);
+    
+    (description, sleepy_guard.id*minute_sleep)
 }
 
 fn part2() -> (String, u32) {
@@ -204,19 +205,15 @@ fn part2() -> (String, u32) {
     let mut most_minute_guard: [&u32; 3] = [&0u32,&0u32,&0u32];
     for (guard_id,guard) in guard_data.iter() {
 
-        match guard.sleep_freq.iter().max_by_key(|&(_k, v)| v) {
-            Some(result) => {
-                //println!("{} {:?}", guard_id, result)
-                if result.1 > most_minute_guard[2] {
-                    most_minute_guard = [guard_id, result.0 ,result.1];
-                }
-                },
-            None => (),
+        if let Some(result) = guard.sleep_freq.iter().max_by_key(|&(_k, v)| v) {
+            if result.1 > most_minute_guard[2] {
+                most_minute_guard = [guard_id, result.0 ,result.1];
+            }
         }
-       
     }
     let description = format!("Guard id {}, was sleeping at 00:{}, {} times", most_minute_guard[0], most_minute_guard[1], most_minute_guard[2]);
-    return (description, most_minute_guard[0]*most_minute_guard[1]);
+    
+    (description, most_minute_guard[0]*most_minute_guard[1])
 }
 
 fn main() {
@@ -228,5 +225,4 @@ fn main() {
     println!("Part2: {}",desc_text_2);
     println!("Part 1: Answer: {}", answer_1);
     println!("Part 2: Answer: {}", answer_2);
-   
 }
