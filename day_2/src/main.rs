@@ -62,7 +62,7 @@ fn part2() -> (usize, String) {
             box_id_match.insert(letter_match.len(), letter_match);
         }
     }
-    let (num_common, letters_in_common)  = box_id_match.iter().next_back().unwrap();
+    let (num_common, letters_in_common) = box_id_match.iter().next_back().unwrap();
 
     (*num_common, letters_in_common.to_string())
 }

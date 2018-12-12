@@ -1,17 +1,17 @@
-use std::io::BufReader;
-use std::io::prelude::*;
-use std::fs::File;
 use std::collections::HashMap;
 use std::collections::HashSet;
+use std::fs::File;
 use std::hash::{Hash, Hasher};
+use std::io::prelude::*;
+use std::io::BufReader;
 extern crate regex;
 use regex::Regex;
 // Helpers
 fn open_input() -> std::io::BufReader<std::fs::File> {
     let file = match File::open("./assets/input") {
-            Err(why) => panic!("couldn't open, {}", why),
-            Ok(file) => file,
-        };
+        Err(why) => panic!("couldn't open, {}", why),
+        Ok(file) => file,
+    };
     BufReader::new(file)
 }
 
@@ -21,7 +21,7 @@ struct Claim {
     padding_x: u32,
     padding_y: u32,
     width: u32,
-    height: u32
+    height: u32,
 }
 
 impl PartialEq for Claim {
@@ -38,7 +38,6 @@ impl Hash for Claim {
     }
 }
 
-
 struct Point {
     x: u32,
     y: u32,
@@ -52,7 +51,6 @@ impl PartialEq for Point {
 
 impl Eq for Point {}
 
-
 impl Hash for Point {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.x.hash(state);
@@ -60,19 +58,18 @@ impl Hash for Point {
     }
 }
 
-fn calculate_coordinates(claim: Claim) -> Vec<Point> { 
+fn calculate_coordinates(claim: Claim) -> Vec<Point> {
     let mut coordinates: Vec<Point> = Vec::new();
     for x_step in 0..claim.width {
         for y_tep in 0..claim.height {
-            coordinates.push(Point{
+            coordinates.push(Point {
                 x: claim.padding_x + x_step,
-                y: claim.padding_y + y_tep
-                });
+                y: claim.padding_y + y_tep,
+            });
         }
     }
     coordinates
 }
-
 
 fn part1and2() -> (u32, Claim) {
     let mut claims: HashSet<Claim> = HashSet::new();
@@ -92,13 +89,16 @@ fn part1and2() -> (u32, Claim) {
         };
         claims.insert(claim);
         for point in calculate_coordinates(claim) {
-            claimed_coordinates.entry(point).or_insert_with(Vec::new).push(claim);
+            claimed_coordinates
+                .entry(point)
+                .or_insert_with(Vec::new)
+                .push(claim);
         }
     }
 
     let mut part_one_count = 0;
     let mut part_two_claim = Claim::default();
-    for (_point,claim_list) in claimed_coordinates {
+    for (_point, claim_list) in claimed_coordinates {
         if claim_list.len() > 1 {
             part_one_count += 1;
             for claim in claim_list {
@@ -112,9 +112,7 @@ fn part1and2() -> (u32, Claim) {
         part_two_claim = claim;
     }
     (part_one_count, part_two_claim)
-
 }
-
 
 fn main() {
     println!("Results for Day 3");
