@@ -1,19 +1,10 @@
 use std::collections::HashMap;
 use std::collections::HashSet;
-use std::fs::File;
 use std::hash::{Hash, Hasher};
 use std::io::prelude::*;
-use std::io::BufReader;
 extern crate regex;
 use regex::Regex;
-// Helpers
-fn open_input() -> std::io::BufReader<std::fs::File> {
-    let file = match File::open("./assets/input") {
-        Err(why) => panic!("couldn't open, {}", why),
-        Ok(file) => file,
-    };
-    BufReader::new(file)
-}
+extern crate utilities as utils;
 
 #[derive(Debug, Clone, Copy, Default)]
 struct Claim {
@@ -76,7 +67,7 @@ fn part1and2() -> (u32, Claim) {
     let mut claimed_coordinates: HashMap<Point, Vec<Claim>> = HashMap::new();
     let re = Regex::new(
         r"(?si)\#(?P<id>\b[0-9]+) @ (?P<padding_x>\b[0-9]+),(?P<padding_y>\b[0-9]+): (?P<width>\b[0-9]+)x(?P<height>\d+)").unwrap();
-    for line in open_input().lines() {
+    for line in utils::open_input("./assets/input_day03").lines() {
         let str_line = line.unwrap().clone();
         let claim_string = re.captures(&str_line).unwrap();
 

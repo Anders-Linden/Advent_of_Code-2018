@@ -1,6 +1,9 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+### Refactor
+- Moved every solution to a common package
+
 
 <a name="Day_6"></a>
 ## [Day_6] - 2019-10-30

@@ -1,15 +1,5 @@
-use std::fs::File;
 use std::io::prelude::*;
-use std::io::BufReader;
-
-// Helpers
-fn open_input() -> std::io::BufReader<std::fs::File> {
-    let file = match File::open("./assets/input") {
-        Err(why) => panic!("couldn't open, {}", why),
-        Ok(file) => file,
-    };
-    BufReader::new(file)
-}
+extern crate utilities as utils;
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 struct Point {
@@ -26,7 +16,7 @@ impl Point {
 
 fn get_coordinates() -> Vec<Point> {
     let mut coordinates: Vec<Point> = Vec::new();
-    for line in open_input().lines() {
+    for line in utils::open_input("./assets/input_day06").lines() {
         let spl: Vec<i16> = line
             .unwrap()
             .split(", ")
@@ -40,9 +30,8 @@ fn get_coordinates() -> Vec<Point> {
     return coordinates;
 }
 
-fn part1() -> isize {
-    let coordinates: Vec<Point> = get_coordinates();
-    let mut area_count = vec![0; coordinates.len()];;
+fn part1(coordinates : &Vec<Point>) -> isize {
+    let mut area_count = vec![0; coordinates.len()];
 
 
     // Boundaries of the world
@@ -88,8 +77,7 @@ fn part1() -> isize {
     *area_count.iter().max().unwrap()
 }
 
-fn part2() -> isize {
-    let coordinates: Vec<Point> = get_coordinates();
+fn part2(coordinates: &Vec<Point>) -> isize {
     let min_x = coordinates.iter().min_by_key(|a| a.x).unwrap().x;
     let max_x = coordinates.iter().max_by_key(|a| a.x).unwrap().x;
 
@@ -100,7 +88,7 @@ fn part2() -> isize {
     for x in min_x..max_x + 1 {
         for y in min_y..max_y + 1 {
             let mut total_distance = 0;
-            for coord in &coordinates {
+            for coord in coordinates {
                 total_distance += coord.manhattan_distance(&Point { x, y });
             }
             if total_distance < 10000 {
@@ -111,11 +99,12 @@ fn part2() -> isize {
     area_count
 }
 fn main() {
+    let coordinates: Vec<Point> = get_coordinates();
     println!("Results for Day 6");
     println!("-------------------");
 
-    println!("Part 1: {}", part1());
-    println!("Part 2: {}", part2());
+    println!("Part 1: {}", part1(&coordinates));
+    println!("Part 2: {}", part2(&coordinates));
 }
 
 #[cfg(test)]

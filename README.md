@@ -9,5 +9,5 @@ You will need rust and Cargo to run these small solutions. Install it from [rust
 
 Running a solution
 ```
-cd day_1 & cargo run --release
+cargo run --release --bin day_01
 ```

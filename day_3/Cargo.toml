@@ -1,7 +1,0 @@
-[package]
-name = "day_3"
-version = "0.1.0"
-authors = ["Anders Lindén <anders@andvision.se>"]
-
-[dependencies]
-regex = "1"

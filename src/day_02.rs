@@ -1,27 +1,13 @@
 use std::collections::BTreeMap;
 use std::collections::HashMap;
-use std::fs::File;
 use std::io::prelude::*;
-use std::io::BufReader;
-
-// Helpers
-fn open_input() -> std::io::BufReader<std::fs::File> {
-    let file = match File::open("./assets/input") {
-        Err(why) => panic!("couldn't open, {}", why),
-        Ok(file) => file,
-    };
-    BufReader::new(file)
-}
-
-//
-// Functions
-//
+extern crate utilities as utils;
 
 // Find rudimentary checksum
 fn part1() -> u32 {
     let mut result = 1;
     let mut rudimentary_factors: HashMap<u32, u32> = HashMap::new();
-    for line in open_input().lines() {
+    for line in utils::open_input("./assets/input_day02").lines() {
         let box_id = line.unwrap();
         let mut occurrence: HashMap<char, u32> = HashMap::new();
         for letter in box_id.chars() {
@@ -47,7 +33,8 @@ fn part1() -> u32 {
 // Find common letters in Box IDs letters
 fn part2() -> (usize, String) {
     let mut box_id_match: BTreeMap<usize, String> = BTreeMap::new();
-    let box_id: Vec<_> = open_input().lines().map(|res| res.unwrap()).collect();
+    let box_id: Vec<_> = utils::open_input("./assets/input_day02")
+        .lines().map(|res| res.unwrap()).collect();
     let num_elements = box_id.len();
 
     for (i, element) in box_id.iter().enumerate() {

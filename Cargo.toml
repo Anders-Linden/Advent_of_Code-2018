@@ -1,0 +1,39 @@
+[package]
+name = "aoc2018"
+version = "0.1.0"
+authors = ["Anders Lindén <hello_world@anders.dev>"]
+
+[profile.dev]
+opt-level = 0
+
+[profile.release]
+opt-level = 3
+
+[dependencies]
+regex = "1"
+chrono = "0.4"
+utilities = { path = "utilities" }
+
+[[bin]]
+name = "day_01"
+path = "src/day_01.rs"
+
+[[bin]]
+name = "day_02"
+path = "src/day_02.rs"
+
+[[bin]]
+name = "day_03"
+path = "src/day_03.rs"
+
+[[bin]]
+name = "day_04"
+path = "src/day_04.rs"
+
+[[bin]]
+name = "day_05"
+path = "src/day_05.rs"
+
+[[bin]]
+name = "day_06"
+path = "src/day_06.rs"

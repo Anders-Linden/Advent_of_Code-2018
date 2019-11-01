@@ -1,23 +1,13 @@
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 use std::collections::HashMap;
-use std::fs::File;
 use std::hash::{Hash, Hasher};
 use std::io::prelude::*;
-use std::io::BufReader;
 extern crate chrono;
 use chrono::prelude::*;
-
+extern crate utilities as utils;
 extern crate regex;
 use regex::Regex;
-// Helpers
-fn open_input() -> std::io::BufReader<std::fs::File> {
-    let file = match File::open("./assets/input") {
-        Err(why) => panic!("couldn't open, {}", why),
-        Ok(file) => file,
-    };
-    BufReader::new(file)
-}
 
 pub trait SantaEpoch {
     fn santa_epoch(self) -> i64;
@@ -125,7 +115,7 @@ fn get_guard_data() -> HashMap<u32, Guard> {
 
     let re = Regex::new(
         r"(?si)\[(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2}) (?P<hour>\d{2}):(?P<minute>\d{2})] (?P<event>(wakes|falls|Guard)) \s*(\#(?P<id>\b[0-9]+))?").unwrap();
-    for line in open_input().lines() {
+    for line in utils::open_input("./assets/input_day04").lines() {
         let str_line = line.unwrap().clone();
         let guards_string = re.captures(&str_line).unwrap();
 
@@ -140,13 +130,13 @@ fn get_guard_data() -> HashMap<u32, Guard> {
         let mut guard_id = 0;
 
         let mut event_type = Task::Undefined;
-        if event == "falls" {
+        if event == "falls".to_string() {
             event_type = Task::FallSleep;
             guard_id = 0; // Undefined, list is not sorted yet
-        } else if event == "wakes" {
+        } else if event == "wakes".to_string() {
             event_type = Task::WakeUp;
             guard_id = 0; // Undefined, list is not sorted yet
-        } else if event == "Guard" {
+        } else if event == "Guard".to_string() {
             guard_id = guards_string["id"].parse::<u32>().unwrap();
             event_type = Task::BeginShift;
         }
