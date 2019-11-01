@@ -1,5 +1,4 @@
 use std::fs::File;
-use std::io::prelude::*;
 use std::io::BufReader;
 
 pub fn open_input(file_path: &str) -> std::io::BufReader<std::fs::File> {
