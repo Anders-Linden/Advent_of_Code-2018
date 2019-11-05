@@ -3,7 +3,7 @@ stages:
 
 code_coverage:
   stage: test
-  image: rust:1.39
+  image: rust:1.38.0
   before_script: []
   script:
     - apt-get update && apt-get install -y zip
