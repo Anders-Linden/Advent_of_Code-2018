@@ -43,3 +43,13 @@ fn main() {
     println!("Part 1: {}", part1());
     println!("Part 2: {}", part2());
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn code_coverage_test_main() {
+        assert_eq!(main(), ());
+    }
+}

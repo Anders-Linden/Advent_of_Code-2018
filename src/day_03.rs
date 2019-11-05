@@ -112,3 +112,13 @@ fn main() {
     println!("Part 1: {}", part_one_count);
     println!("Part 2: {}", part_two_claim.id);
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn code_coverage_test_main() {
+        assert_eq!(main(), ());
+    }
+}

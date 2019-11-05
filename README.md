@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gl/linden/advent_of_code-2018/branch/master/graph/badge.svg)](https://codecov.io/gl/linden/advent_of_code-2018)
+
 # Advent of code 2018
 
 Christmas is in danger this year, there have been an anonamly in the past, changing Santa's history. I have 25 days to solve everything with Rust before the anonamly have propagated to our time.

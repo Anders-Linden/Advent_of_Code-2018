@@ -1,7 +1,6 @@
 use std::io::prelude::*;
 extern crate utilities as utils;
 
-#[derive(Debug, PartialEq, Eq, Clone)]
 struct Point {
     x: i16,
     y: i16,
@@ -112,18 +111,26 @@ mod tests {
     use super::*;
 
     #[test]
+    fn code_coverage_test_main() {
+        assert_eq!(main(), ());
+    }
+
+    #[test]
     fn test_manhattan_distance() {
         assert_eq!(
             Point { x: 0, y: 0 }.manhattan_distance(&Point { x: 1, y: 1 }),
-            2
-        );
+            2);
+    }
+
+    #[test]
+    fn test_manhattan_distance_x_negative() {
         assert_eq!(
-            Point { x: -1, y: 0 }.manhattan_distance(&Point { x: 1, y: 1 }),
-            3
-        );
+            Point { x: -1, y: 0 }.manhattan_distance(&Point { x: 1, y: 1 }), 3);
+    }
+
+    #[test]
+    fn test_manhattan_distance_negative() {
         assert_eq!(
-            Point { x: -1, y: -1 }.manhattan_distance(&Point { x: -2, y: -1 }),
-            1
-        );
+            Point { x: -1, y: -1 }.manhattan_distance(&Point { x: -2, y: -1 }), 1);
     }
 }

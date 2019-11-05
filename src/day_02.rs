@@ -62,3 +62,13 @@ fn main() {
     println!("Part 2: Number of letters {}", num);
     println!("Answer: {}", letters)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn code_coverage_test_main() {
+        assert_eq!(main(), ());
+    }
+}

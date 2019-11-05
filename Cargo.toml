@@ -12,6 +12,7 @@ opt-level = 3
 [dependencies]
 regex = "1"
 chrono = "0.4"
+petgraph = "0.4.13"
 utilities = { path = "utilities" }
 
 [[bin]]
